@@ -5,7 +5,7 @@
 #-[Installation](#installation)
 
 ##WARNING
--This is only for homelab purposes and not for public use. The malicious use of software is already against the law in most jurisdictions so intent matters.
+-This is only for educational/homelab/ethical purposes and not for public use. The malicious use of software is already against the law in most jurisdictions so intent matters.
 ##Features
 - Tracks key presses and releases
 - Creates a txt file that has a log of the keys pressed
